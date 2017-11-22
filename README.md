@@ -14,7 +14,7 @@ An ESP8266 project that uses UDP to send messages to a server.
 
 # Overview
 
-This project demonstrates the use of UDP on an ESP8266 (*NodeMCU v1.0*). It acts as a client and connects with a server.
+This project demonstrates the use of UDP on an ESP8266 (*NodeMCU v1.0*). It acts as a client and connects with a server. Software components include some of my previous work, such as **[ESP8266-config-data-V2](#https://github.com/jxmot/ESP8266-config-data-V2)**.
 
 # History
 
