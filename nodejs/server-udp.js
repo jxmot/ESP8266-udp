@@ -7,6 +7,8 @@ const host = '0.0.0.0';
 //const port = 41100;
 const port = 48431;
 
+var count = 0;
+
 server.on('error', (err) => {
     console.log(err.stack);
     server.close();
@@ -14,7 +16,8 @@ server.on('error', (err) => {
 
 server.on('message', (msg, rinfo) => {
 
-    var temp = ">>Got [";
+    count += 1;
+    var temp = `>> #${count.toString()}  Got [`;
     msg.filter(charcode => {
         if(charcode !== 0) {
             temp = temp + String.fromCharCode(charcode);
