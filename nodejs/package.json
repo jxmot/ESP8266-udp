@@ -1,0 +1,20 @@
+{
+  "name": "UDP Testing Tool",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server-udp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server-udp.js"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "author": "Jim Motyl",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
