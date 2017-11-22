@@ -1,6 +1,9 @@
 /* ************************************************************************ */
 /*
     esp8266-ino.h - support for the associated ino file.
+
+    Stuff that's useful for multiple sketches and helps in keeping the 
+    sketch file(s) uncluttered.
 */
 #ifndef ESP8266INO_H
 #define ESP8266INO_H
