@@ -7,7 +7,7 @@
 #define ERR_TOGGLE_INTERVAL 250
 int toggInterv = TOGGLE_INTERVAL;
 
-const char *testMsg = "this is a test 1 2 3 4\00";
+char *testMsg = "this is a test 1 2 3 4\00";
 
 /*
     Application Set Up
