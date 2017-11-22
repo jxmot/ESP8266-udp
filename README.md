@@ -38,5 +38,9 @@ Create functions that can take an *object* and render them as JSON strings. Then
 * Registering a device with a server.
 * Sending device/sensor data to a server.
 
+## External Servers
+
+Modifiy the code to allow for *named* servers to be used in the server configuration file. The host names would need to be resolved to IP addresses.
+
 # Links and References
 
