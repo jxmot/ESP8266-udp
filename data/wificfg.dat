@@ -1,0 +1,4 @@
+{ "apoints":[
+{"ssid":"your ssid-1 here","pass":"your wifi password-1 here"},
+{"ssid":"your ssid-2 here","pass":"your wifi password-2 here"}
+],"apcount":2}
