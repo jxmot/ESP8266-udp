@@ -30,5 +30,13 @@ This project demonstrates the use of UDP on an ESP8266 (*NodeMCU v1.0*). It acts
 
 ## Submodules
 
+## JSON Data
+
+Create functions that can take an *object* and render them as JSON strings. Then send the JSON data to the server and expect a JSON response. The response will then be parsed into an object for use in the application. Possible uses are - 
+
+* Obtaining configuration data.
+* Registering a device with a server.
+* Sending device/sensor data to a server.
+
 # Links and References
 
