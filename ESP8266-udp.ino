@@ -15,6 +15,7 @@
 // required include files...
 #include "esp8266-ino.h"
 #include "esp8266-udp.h"
+#include "udp-defs.h"
 
 // The on-board LED is used for indicating the post-setup state. The LED 
 // will be toggled using one of two intervals (OFF/ON). The intent is to
@@ -38,12 +39,15 @@ void setup()
     setupStart();
 
 #ifdef MUTE_DEBUG_OUTPUT
-    if(setupApp("/_appcfg.dat")) {
+    if(setupApp("/_appcfg.dat")) 
+    {
 #else
-    if(setupApp("/appcfg.dat")) {
+    if(setupApp("/appcfg.dat")) 
+    {
 #endif
 #ifdef CONFIG_DEMO
-        if(setupWiFi("/wificfg.dat")) {
+        if(setupWiFi("/wificfg.dat")) 
+        {
             if(!setupServers("/servercfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
         } else toggInterv = ERR_TOGGLE_INTERVAL;
 #else
@@ -54,7 +58,8 @@ void setup()
         // this code block is to serve as a gentle reminder that there can
         // be additional differences between modes. For example, some config 
         // operations might not be necessary in CONFIG_DEMO.
-        if(setupWiFi("/_wificfg.dat")) {
+        if(setupWiFi("/_wificfg.dat")) 
+        {
             if(!setupServers("/_servercfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
         } else toggInterv = ERR_TOGGLE_INTERVAL;
 #endif
@@ -65,7 +70,14 @@ void setup()
 
     // if we're not indicating an error the continue with the 
     // initialization of the UDP functionality...
-    if(toggInterv == TOGGLE_INTERVAL) initUDP();
+    if(toggInterv == TOGGLE_INTERVAL) 
+    {
+        if(!initUDP()) 
+        {
+            printError(String(__func__), "UDP init failed!");
+            toggInterv = ERR_TOGGLE_INTERVAL;
+        }
+    }
 }
 
 /*
@@ -117,8 +129,10 @@ String temp;
             Serial.println("loop() - rcvd = " + String(rcvd));
 
             // NOTE: It was assumed that the UDP packet contained a 
-            // string characters. The string could contain anything 
-            // (up to 
+            // string of characters. The string could contain anything 
+            // (up to udp-defs.h:UDP_PACKET_SIZE bytes in size) even
+            // a JSON string. The string MUST be NULL terminated, there's 
+            // more info in esp8266-udp.cpp
             temp = String((char *)&readBuffer[0]);
 
             Serial.println();

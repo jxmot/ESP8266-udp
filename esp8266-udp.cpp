@@ -4,25 +4,32 @@
 */
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
+
 #include "esp8266-ino.h"
+#include "udp-defs.h"
 
-#define UDP_PACKET_SIZE_READ 75
-#define UDP_PACKET_SIZE_WRITE 75
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-//byte readBuffer[UDP_PACKET_SIZE_READ];
-//byte writeBuffer[UDP_PACKET_SIZE_WRITE];
+#define UDP_PACKET_SIZE_READ (UDP_PACKET_SIZE + 1)
+#define UDP_PACKET_SIZE_WRITE (UDP_PACKET_SIZE + 1)
+
 unsigned char readBuffer[UDP_PACKET_SIZE_READ];
-//unsigned char readBuffer[UDP_TX_PACKET_MAX_SIZE + 1];
 unsigned char writeBuffer[UDP_PACKET_SIZE_WRITE];
-//byte readBuffer[UDP_TX_PACKET_MAX_SIZE + 1];
-//byte writeBuffer[UDP_PACKET_SIZE_WRITE];
 
 WiFiUDP udp;
 srvcfg udpServer;
 
-bool initUDP()
+/* ************************************************************************ */
+/*
+    Obtain the UDP configuration data, apply it and do any other necessary
+    UDP config steps...
+*/
+int initUDP()
 {
-bool bRet = false;
+bool success = false;
+int iRet = 0;
 
     // make sure the WiFi is connected...
     if((connWiFi != NULL) && connWiFi->IsConnected())
@@ -30,13 +37,20 @@ bool bRet = false;
         // init the UDP...
         s_cfgdat->getServerCfg("udp1", udpServer);
 //        s_cfgdat->getServerCfg("udp2", udpServer);
-//        if(udp.begin(udpServer.recvport)) bRet = true;
-        if(udp.begin(udpServer.sendport)) bRet = true;
+//        if(udp.begin(udpServer.recvport)) success = true;
+        if(udp.begin(udpServer.sendport)) success = true;
     }
-    if(!checkDebugMute()) Serial.println("initUDP() - bRet = " + String(bRet));
-    return bRet;
+    if(!checkDebugMute()) Serial.println("initUDP() - success = " + String(success));
+
+    if(success) iRet = UDP_PACKET_SIZE;
+    else iRet = 0;
+
+    return iRet;
 }
 
+/*
+    
+*/
 int sendUDP(char *buffer, int len)
 {
 int iRet = 0;
@@ -46,7 +60,7 @@ int iRet = 0;
     memset(writeBuffer, 0, UDP_PACKET_SIZE_WRITE);
 
     // assemble the UDP packet...
-    if((len <= UDP_PACKET_SIZE_WRITE) && (len > 0))
+    if((len < UDP_PACKET_SIZE_WRITE) && (len > 0))
     {
         memcpy(writeBuffer, buffer, len);
 
@@ -54,7 +68,7 @@ int iRet = 0;
         udp.beginPacket(udpServer.ipaddr, udpServer.sendport);
     
         // write & send the UDP packet...
-        iRet = udp.write(writeBuffer, UDP_PACKET_SIZE_WRITE);
+        iRet = udp.write(writeBuffer, UDP_PACKET_SIZE);
 
         if(!checkDebugMute()) Serial.println("sendUDP("+String(iRet)+") - sending to " + udpServer.addr + ":" + udpServer.sendport);
     
@@ -65,6 +79,9 @@ int iRet = 0;
     return iRet;
 }
 
+/*
+    
+*/
 int recvUDP()
 {
 int packetLen;
@@ -73,11 +90,14 @@ int readLen = 0;
     if(packetLen = udp.parsePacket())
     {
         memset(readBuffer, 0, UDP_PACKET_SIZE_READ);
-        readLen = udp.read(readBuffer, UDP_PACKET_SIZE_READ);
+        readLen = udp.read(readBuffer, UDP_PACKET_SIZE);
     }
 
     if(!checkDebugMute()) Serial.println("recvUDP() - packetLen = " + String(packetLen) + "  readLen = " + readLen);
     return readLen;
 }
 
+#ifdef __cplusplus
+}
+#endif
 
