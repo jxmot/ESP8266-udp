@@ -10,7 +10,7 @@ extern "C" {
 #endif
 
 extern int initUDP();
-extern int sendUDP(char *buffer, int len);
+extern int sendUDP(char *payload, int len);
 extern int recvUDP();
 
 extern unsigned char readBuffer[];
