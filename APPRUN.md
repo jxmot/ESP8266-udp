@@ -1,19 +1,18 @@
-* [Running the Application](#running-the-application)
-    * [Requirements](#requirements)
-        * [ArduinoJSON](#arduinojson)
-        * [Flash Memory Tool](#flash-memory-tool)
-            * [Installation](#installation)
-    * [Download and Run](#download-and-run)
-    * [Customization](#customization)
-        * [WiFi Configuration](#wifi-configuration)
-        * [UDP Server Configuration](#udp-server-configuration)
-        * [Muting the Output](#muting-the-output)
-        * [Download and Run](#download-and-run)
-            * [Success or Failure](#success-or-failure)
-
 # Running the Application
 
-## Requirements
+* [Requirements](#requirements)
+    * [ArduinoJSON](#arduinojson)
+    * [Flash Memory Tool](#flash-memory-tool)
+        * [Installation](#installation)
+* [Download and Run](#download-and-run)
+* [Customization](#customization)
+    * [WiFi Configuration](#wifi-configuration)
+    * [UDP Server Configuration](#udp-server-configuration)
+    * [Muting the Output](#muting-the-output)
+    * [Download and Run](#download-and-run)
+        * [Success or Failure](#success-or-failure)
+
+# Requirements
 
 You will need the following - 
 
@@ -25,17 +24,17 @@ You will need the following -
     * A running instance of NodeJS. Script files are in the `nodejs` folder in this repository.
     * Use a program like **[Packet Sender](https://packetsender.com/)**.
 
-### ArduinoJSON
+## ArduinoJSON
 
 The ArduinoJSON library should be installed via the *library manager* in the Arduino IDE. This application was built and tested with **ArduinoJSON v5.11.0**.
 
-### Flash Memory Tool
+## Flash Memory Tool
 
 I dowloaded the most *recent* version of the plugin by going to <https://github.com/esp8266/arduino-esp8266fs-plugin> and clicking the "releases page" link in the README. Download the zip-file and install the plug-in.
 
 **NOTE :** I am running *Windows 10*. And this file, its instructions and any other information may or may not be influenced by that fact. Where possible I will note any windows specific items.
 
-#### Installation
+### Installation
 
 There are some discrepancies in the available on-line sources in regards to *where* to place the plug-in's `jar` file. In *Windows* I've found that the plugin will work as long as it's in one of two places. They are - 
 
@@ -47,7 +46,7 @@ There are some discrepancies in the available on-line sources in regards to *whe
 
 I've tested the plug-in separately in each of the locations and have had no issues.
 
-## Download and Run
+# Download and Run
 
 **NOTE :** If you're not new to Arduino and/or the ESP8266 you can probably skip this section and jump to [Customization](#customization). This section is meant to make sure everything else is working properly. 
 <br>
@@ -67,12 +66,11 @@ After that has completed open the *serial monitor* and reset the ESP8266.
 
 To see a serial output example right-click **[here](OUTPUT_EXAMPLE_01.md)** and open in a new tab or window.
 
-
-## Customization
+# Customization
 
 Let's edit the configuration data and change at least one of the SSID and password combinations to something *usable*.
 
-### WiFi Configuration
+## WiFi Configuration
 
 **1**) Edit the `wificfg.dat` file, it's found in `/data`
 
@@ -95,7 +93,7 @@ Let's edit the configuration data and change at least one of the SSID and passwo
 
 **4**) Save and close the file as **`_wificfg.dat`** (*note the underscore at the beginning of the file name, since this file now contains sensitive information it will be ignored via* `.gitignore` *and cannot be committed*)
 
-### UDP Server Configuration
+## UDP Server Configuration
 
 **1**) Edit the `servercfg.dat` file, it's found in `/data`
 
@@ -127,11 +125,11 @@ Let's edit the configuration data and change at least one of the SSID and passwo
 
 **4**) Save and close the file as **`_servercfg.dat`** (*note the underscore at the beginning of the file name, since this file now contains sensitive information it will be ignored via* `.gitignore` *and cannot be committed*)
 
-### Muting the Output
+## Muting the Output
 
 In `appcfg.dat` change `debugmute` to `true` and upload the sketch data. Reset and the majority of debug output will be muted. 
 
-### Download and Run
+## Download and Run
 
 **1**) Run the *Arduino IDE* and go to the *Tools* menu and find **`Flash Size:`** and choose **'4M (1M SPIFFS)'**.
 
@@ -147,7 +145,7 @@ In `appcfg.dat` change `debugmute` to `true` and upload the sketch data. Reset a
 
 To see a serial output example right-click **[here](OUTPUT_EXAMPLE_02.md)** and open in a new tab or window.
 
-#### Success or Failure
+### Success or Failure
 
 When the WiFi connection is successful the on-board LED will flash with an interval of `TOGGLE_INTERVAL` (*defined in ESP8266-config-data-V2.ino*). However if an error has occurred the LED will flash with an interval of `ERR_TOGGLE_INTERVAL`. Errors are detected and reported to the serial console for - 
 
