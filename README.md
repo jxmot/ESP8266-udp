@@ -5,14 +5,12 @@ An ESP8266 project that uses UDP to send messages to a server.
 * [Overview](#overview)
 * [History](#history)
 * [Running the Application](#running-the-application)
-
-
-
-    * [Modifications](#odifications)
-    * [Server for Testing](#server-for-testing)
-    * [Download and Run](#download-and-run)
+    * [A Server for Testing](#a-server-for-testing)
+    * [Build and Customize](#build-and-customize)
 * [Design Details](#design-details)
 * [Code Details](#code-details)
+    * [Sketch Source](#sketch-source)
+    * [NodeJS Testing Code](#nodejs-testing-code)
 * [Future Modifications](#future-modifications)
     * [Submodules](#submodules)
 * [Links and References](#links-and-references)
@@ -29,23 +27,13 @@ After I finished a **[RWCL-0516 sensor project](https://github.com/jxmot/ESP8266
 
 # Running the Application
 
-**REFER TO APPRUN.md IN THIS REPO**
-
-
-
-
-
-
-
-## Modifications
-
-**CONFIG FILES**
-
-## Server for Testing
+## A Server for Testing
 
 **NODE or PACKET SENDER**
 
-## Download and Run
+## Build and Customize
+
+**REFER TO APPRUN.md IN THIS REPO**
 
 # Design Details
 
@@ -54,6 +42,10 @@ After I finished a **[RWCL-0516 sensor project](https://github.com/jxmot/ESP8266
 **PROGRAM FLOW**
 
 # Code Details
+
+## Sketch Source
+
+## NodeJS Testing Code
 
 # Future Modifications
 
