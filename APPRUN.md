@@ -67,6 +67,9 @@ After that has completed open the *serial monitor* and reset the ESP8266.
 
 To see a serial output example right-click **[here](https://github.com/jxmot/ESP8266-udp/blob/master/OUTPUT_EXAMPLE_01.md)** and open in a new tab or window.
 
+To see a serial output example right-click **[here](OUTPUT_EXAMPLE_01.md)** and open in a new tab or window.
+
+
 ## Customization
 
 Let's edit the configuration data and change at least one of the SSID and password combinations to something *usable*.
