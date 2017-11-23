@@ -20,7 +20,7 @@ You will need the following -
 * Arduino IDE - Installed and made ready for use with the ESP8266
     * In addition to being able to compile code and download for the ESP8266 you **will** need an IDE plug-in for downloading the file(s) to the ESP8266 *flash memory*.
 * The **[ArduinoJSON](#http://arduinojson.org/)** library is used in this application.
-* A UDP *server*. This can be at least one of the following - 
+* A UDP *server* should be running before starting the sketch. This can be at least one of the following - 
     * A running instance of NodeJS. Script files are in the `nodejs` folder in this repository.
     * Use a program like **[Packet Sender](https://packetsender.com/)**.
 
