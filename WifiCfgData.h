@@ -41,11 +41,9 @@ class WifiCfgData : public ConfigData {
     public:
         int getAPCount();
 
-        char *getSSID(int apidx = 0);
-        String getSSIDString(int apidx = 0);
+        String getSSID(int apidx = 0);
         
-        char *getPASS(int apidx = 0);
-        String getPASSString(int apidx = 0);
+        String getPASS(int apidx = 0);
         
     private:
         bool muteDebug;

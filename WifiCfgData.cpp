@@ -76,25 +76,13 @@ int WifiCfgData::getAPCount()
     return apcount;
 }
 
-char *WifiCfgData::getSSID(int apidx)
-{
-    if(apidx < apcount) return (char *)aps[apidx].ssid.c_str();
-    else return NULL;
-}
-
-String WifiCfgData::getSSIDString(int apidx)
+String WifiCfgData::getSSID(int apidx)
 {
     if(apidx < apcount) return aps[apidx].ssid;
     else return String("");
 }
 
-char *WifiCfgData::getPASS(int apidx)
-{
-    if(apidx < apcount) return (char *)aps[apidx].pass.c_str();
-    else return NULL;
-}
-
-String WifiCfgData::getPASSString(int apidx)
+String WifiCfgData::getPASS(int apidx)
 {
     if(apidx < apcount) return aps[apidx].pass;
     else return String("");

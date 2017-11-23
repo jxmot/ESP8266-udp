@@ -191,7 +191,7 @@ bool isconnected = false;
                 // connectWiFi() will retry for a successful connection for
                 // specific number of attempts. It will return true if a 
                 // connection is made.
-                isconnected = connectWiFi(w_cfgdat->getSSIDString(ix), w_cfgdat->getPASSString(ix));
+                isconnected = connectWiFi(w_cfgdat->getSSID(ix), w_cfgdat->getPASS(ix));
             }
 
             // success?
@@ -199,7 +199,7 @@ bool isconnected = false;
             {
                 // no
                 errMsg = "Could not connect to - ";
-                for(ix = 0; ix < w_cfgdat->getAPCount(); ix++) errMsg += String("\n    ") + w_cfgdat->getSSIDString(ix);
+                for(ix = 0; ix < w_cfgdat->getAPCount(); ix++) errMsg += String("\n    ") + w_cfgdat->getSSID(ix);
                 printError(func, errMsg);
             } else errMsg = "";
         }
@@ -222,8 +222,8 @@ void printWiFiCfg()
         for(int ix = 0; ix < w_cfgdat->getAPCount(); ix++)
         {
             Serial.println("AP #" + String(ix));
-            Serial.println("getSSID - " + w_cfgdat->getSSIDString(ix));
-            Serial.println("getPASS - " + w_cfgdat->getPASSString(ix));
+            Serial.println("getSSID - " + w_cfgdat->getSSID(ix));
+            Serial.println("getPASS - " + w_cfgdat->getPASS(ix));
             Serial.println();
         }
     }
