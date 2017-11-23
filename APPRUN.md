@@ -65,8 +65,6 @@ Your SPIFFS along with the files it contains will be uploaded to the ESP8266. Be
 
 After that has completed open the *serial monitor* and reset the ESP8266. 
 
-To see a serial output example right-click **[here](https://github.com/jxmot/ESP8266-udp/blob/master/OUTPUT_EXAMPLE_01.md)** and open in a new tab or window.
-
 To see a serial output example right-click **[here](OUTPUT_EXAMPLE_01.md)** and open in a new tab or window.
 
 
@@ -147,7 +145,7 @@ In `appcfg.dat` change `debugmute` to `true` and upload the sketch data. Reset a
 
 **6**) After the SPIFFS has uploaded you can open the *serial monitor* and reset the ESP8266.
 
-To see a serial output example right-click **[here](https://github.com/jxmot/ESP8266-udp/blob/master/OUTPUT_EXAMPLE_02.md)** and open in a new tab or window.
+To see a serial output example right-click **[here](OUTPUT_EXAMPLE_02.md)** and open in a new tab or window.
 
 #### Success or Failure
 
