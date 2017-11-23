@@ -48,14 +48,21 @@ This sketch behaves as a *client* and not as a *server* as shown in most ESP8266
   <img src="./mdimg/udp-diagram-01.png" alt="UDP Packet Flow" txt="UDP Packet Flow" style="border: 2px solid black"/>
 </p>
 
-
-**CLIENT/SERVER DIAGRAM**
-
-**PROGRAM FLOW**
+The sketch continuously alternates between sending a UDP packet and waiting for a reply. After a packet is sent a delay of 1 second occurs before it attempts to receive a reply.
+<br>
+<br>
+<br>
+<p align="center">
+  <img src="./mdimg/udp-loop-flow.png" alt="loop() Flow Chart" txt="loop() Flow Chart" />
+</p>
 
 # Code Details
 
 ## Sketch Source
+
+**`esp8266-ino` Functions** :  
+
+**`esp8266-udp` Functions** :  
 
 ## NodeJS Testing Code
 
@@ -64,6 +71,10 @@ This sketch behaves as a *client* and not as a *server* as shown in most ESP8266
 Just some things I may experiment with. This section will get updated as I work on them.
 
 ## Submodules
+
+## Task Manager
+
+Investigate the use of <https://github.com/arkhipenko/TaskScheduler> or something like it. 
 
 ## JSON Data
 
@@ -75,7 +86,7 @@ Create functions that can take an *object* and render them as JSON strings. Then
 
 ## External Servers
 
-Modifiy the code to allow for *named* servers to be used in the server configuration file. The host names would need to be resolved to IP addresses.
+Modify the code to allow for *named* servers to be used in the server configuration file. The host names would need to be resolved to IP addresses.
 
 Some level of security may be required. A simple method would be to send the device's MAC in the packet to be used as a *fingerprint*. The server would compare it against a list of known MAC addresses.
 
