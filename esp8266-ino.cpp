@@ -19,10 +19,14 @@ extern "C" {
 const int DEFAULT_SERIAL_BAUD = 115200;
 
 // functions that are only called from within this module
+void initLED();
 void printAppCfg();
 void printWiFiCfg();
 bool connectWiFi(String ssid, String pass);
 void printSrvCfg();
+
+// for keeping track of the use of the on-board LED
+bool obLEDinUse = false;
 
 // pointers to configuration data objects, after they're 
 // created and contain the data they will be available
@@ -61,14 +65,24 @@ void setupDone()
     Serial.println();
     Serial.flush();
 
+    initLED();
+}
+
+void initLED()
+{
     // let's blink the LED from within loop()
     pinMode(LED_BUILTIN, OUTPUT);
     delay(10);
     digitalWrite(LED_BUILTIN, HIGH);
+
+    obLEDinUse = true;
 }
 
 /*
     Toggle the on-board LED
+
+    Checks to see if the on-board LED pin has been
+    configured. If not it will configure it.
 
     NOTE: The first call to this function will turn on 
     the on-board LED. This behavior can be changed by
@@ -88,6 +102,8 @@ bool toggleLED()
 {
 static bool ledTogg = false;
 //static bool ledTogg = true;
+
+    if(obLEDinUse == false) initLED();
 
     ledTogg = !ledTogg;
 
