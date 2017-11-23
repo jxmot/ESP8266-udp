@@ -13,10 +13,13 @@ An ESP8266 project that uses UDP to send messages to a server.
     * [NodeJS Testing Code](#nodejs-testing-code)
 * [Future Modifications](#future-modifications)
     * [Submodules](#submodules)
+    * [Task Manager](#task-manager)
+    * [JSON Data via UDP](#json-data-via-udp)
+    * [External Servers](#external-servers)
 * [Links and References](#links-and-references)
     * [NodeMCU](#nodemcu)
     * [UDP](#udp)
-* [Recommended Reading](#recommended-reading)
+    * [Recommended Reading](#recommended-reading)
 
 # Overview
 
@@ -58,11 +61,13 @@ The sketch continuously alternates between sending a UDP packet and waiting for 
 
 # Code Details
 
+For the purpose of this project I'll only describe the portions of code that are related to UDP.
+
 ## Sketch Source
 
-**`esp8266-ino` Functions** :  
+**`esp8266-udp` Functions** :  To view function descriptions please right-click **[here](ESP8266_UDP_FUNC.md)** and open in a new tab or window.
 
-**`esp8266-udp` Functions** :  
+**`esp8266-ino` Functions** :  To view function descriptions please right-click **[here](ESP8266_INO_FUNC.md)** and open in a new tab or window.
 
 ## NodeJS Testing Code
 
@@ -76,7 +81,7 @@ Just some things I may experiment with. This section will get updated as I work 
 
 Investigate the use of <https://github.com/arkhipenko/TaskScheduler> or something like it. 
 
-## JSON Data
+## JSON Data via UDP
 
 Create functions that can take an *object* and render them as JSON strings. Then send the JSON data to the server and expect a JSON response. The response will then be parsed into an object for use in the application. Possible uses are - 
 
@@ -102,7 +107,7 @@ Some level of security may be required. A simple method would be to send the dev
 * [Arduino/doc/esp8266wifi/udp-class.rst](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-class.rst) on Github
 * [Arduino/doc/esp8266wifi/udp-examples.rst](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-examples.rst) on Github
 
-# Recommended Reading
+## Recommended Reading
 
 To fully understand **ArduinoJson** and how to properly determine the appropriate size of the buffer needed for your JSON data I recommend that you read the following - 
 
