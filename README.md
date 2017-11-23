@@ -44,6 +44,11 @@ In order for the sketch to run on your network and use your UDP server some mino
 
 This sketch behaves as a *client* and not as a *server* as shown in most ESP8266 UDP examples. In those examples the ESP8266 *responds* to a UDP packet with a reply. In this sketch it behaves as a client and sends a packet to a server and then it expects a reply from the server.
 
+<p align="center">
+  <img src="./mdimg/udp-diagram-01.png" alt="UDP Packet Flow" txt="UDP Packet Flow" style="border: 2px solid black"/>
+</p>
+
+
 **CLIENT/SERVER DIAGRAM**
 
 **PROGRAM FLOW**
