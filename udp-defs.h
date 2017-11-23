@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-#define UDP_PACKET_SIZE 75
+#define UDP_PAYLOAD_SIZE 75
 
 #ifdef __cplusplus
 }

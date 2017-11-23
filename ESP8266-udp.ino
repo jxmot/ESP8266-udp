@@ -120,7 +120,7 @@ String temp;
 
             // NOTE: It was assumed that the UDP packet contained a 
             // string of characters. The string could contain anything 
-            // (up to udp-defs.h:UDP_PACKET_SIZE bytes in size) even
+            // (up to udp-defs.h:UDP_PAYLOAD_SIZE bytes in size) even
             // a JSON string. The string MUST be NULL terminated, there's 
             // more info in esp8266-udp.cpp
             temp = String((char *)&readBuffer[0]);
