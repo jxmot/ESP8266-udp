@@ -32,6 +32,7 @@ class AppCfgData : public ConfigData {
     public:
         String getAppName();
         bool getDebugMute();
+        bool setDebugMute(bool _debugmute);
 
     private:
         String appname;

@@ -69,3 +69,9 @@ bool AppCfgData::getDebugMute()
     return debugmute;
 }
 
+bool AppCfgData::setDebugMute(bool _debugmute)
+{
+    debugmute = _debugmute;
+    return debugmute;
+}
+
