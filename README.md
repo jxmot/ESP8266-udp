@@ -6,6 +6,7 @@ An ESP8266 project that uses UDP to send messages to a server.
 * [History](#history)
 * [Running the Application](#running-the-application)
     * [Requirements](#requirements)
+        * [Libraries Used](#libraries-used)
     * [Modifications](#odifications)
 * [Code Details](#code-details)
 * [Future Modifications](#future-modifications)
@@ -21,6 +22,8 @@ This project demonstrates the use of UDP on an ESP8266 (*NodeMCU v1.0*). It acts
 # Running the Application
 
 ## Requirements
+
+### Libraries Used
 
 ## Modifications
 

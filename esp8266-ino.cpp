@@ -7,6 +7,10 @@
 #include "SrvCfgData.h"
 #include "connectWiFi.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // if the application configuration is present, and if the debug mute flag is 
 // true then mute debug output
 #define DEBUG_MUTE ((a_cfgdat != NULL) && a_cfgdat->getDebugMute() ? true : false)
@@ -20,7 +24,9 @@ void printWiFiCfg();
 bool connectWiFi(String ssid, String pass);
 void printSrvCfg();
 
-// pointers to configuration data objects
+// pointers to configuration data objects, after they're 
+// created and contain the data they will be available
+// through out the run-time of the sketch.
 AppCfgData *a_cfgdat = NULL;
 WifiCfgData *w_cfgdat = NULL;
 SrvCfgData *s_cfgdat = NULL;
@@ -30,7 +36,8 @@ String errMsg;
 
 // pointer to the WiFi connection object
 ConnectWiFi *connWiFi = NULL;
-//////////////////////////////////////////////////////////////////////////////
+
+/* ************************************************************************ */
 /*
     Print a start up message to the serial port
 */
@@ -56,19 +63,29 @@ void setupDone()
 
     // let's blink the LED from within loop()
     pinMode(LED_BUILTIN, OUTPUT);
-// jmotyl - added 20171122
     delay(10);
     digitalWrite(LED_BUILTIN, HIGH);
 }
 
 /*
     Toggle the on-board LED
+
+    NOTE: The first call to this function will turn on 
+    the on-board LED. This behavior can be changed by
+    modifying the declaration of ledTogg.
+
+    ledTogg = false - the LED will turn ON with the 
+                      first call.
+
+    ledTogg = true  - the LED will turn OFF with the 
+                      first call.
+
+    The change in the LED state is also dependent on
+    its initialization. That can be changed in setupDone().
+
 */
-// jmotyl - modified 20171120 in the ESP8266-udp project
-//void toggleLED()
 bool toggleLED()
 {
-// jmotyl - modified 20171120 in the ESP8266-udp project
 static bool ledTogg = false;
 //static bool ledTogg = true;
 
@@ -77,7 +94,6 @@ static bool ledTogg = false;
     if(ledTogg) digitalWrite(LED_BUILTIN, LOW);
     else digitalWrite(LED_BUILTIN, HIGH);
 
-// jmotyl - added 20171120 in the ESP8266-udp project
     return ledTogg;
 }
 
@@ -89,6 +105,7 @@ void printError(String func, String _errMsg)
 {
     if(Serial.baudRate() != DEFAULT_SERIAL_BAUD)
     {
+        Serial.flush();
         Serial.end();
         Serial.begin(DEFAULT_SERIAL_BAUD);
     }
@@ -104,17 +121,26 @@ bool setupApp(const String appCfgFile)
 String func = String(__func__);
 bool bRet = false;
 
+    // get the config data...
     a_cfgdat = new AppCfgData((const char *)appCfgFile.c_str());
+
+    // check for errors
     if(!a_cfgdat->getError(errMsg)) 
     {
+        // success, parse the JSON string
         a_cfgdat->parseFile();
 
+        // check for errors
         if(a_cfgdat->getError(errMsg)) printError(func, errMsg);
-        else {
+        else 
+        {
+            // success, display the config data
             printAppCfg();
             bRet = true;
         }
     } else printError(func, errMsg);
+
+    // return the config-read status, true = success
     return bRet;
 }
 
@@ -141,27 +167,45 @@ bool setupWiFi(const String wifiCfgFile)
 String func = String(__func__);
 bool isconnected = false;
 
+    // get the config data...
     w_cfgdat = new WifiCfgData((const char *)wifiCfgFile.c_str(), DEBUG_MUTE);
 
+    // check for errors
     if(!w_cfgdat->getError(errMsg)) 
     {
+        // success, parse the JSON string
         w_cfgdat->parseFile();
+
+        // check for errors
         if(w_cfgdat->getError(errMsg)) printError(func, errMsg);
-        else {
+        else 
+        {
+            // success, display the config data
             printWiFiCfg();
+
+            // iterate through the configured APs until there's a successful
+            // connection or none have occurred.
             int ix = 0;
             for(ix = 0; ix < w_cfgdat->getAPCount() && isconnected == false; ix++)
             {
-                isconnected = connectWiFi(w_cfgdat->getSSIDString(ix), w_cfgdat->getPASSString(ix));
+                // connectWiFi() will retry for a successful connection for
+                // specific number of attempts. It will return true if a 
+                // connection is made.
+                isconnected = connectWiFi(w_cfgdat->getSSID(ix), w_cfgdat->getPASS(ix));
             }
+
+            // success?
             if(!isconnected) 
             {
+                // no
                 errMsg = "Could not connect to - ";
-                for(ix = 0; ix < w_cfgdat->getAPCount(); ix++) errMsg += String("\n    ") + w_cfgdat->getSSIDString(ix);
+                for(ix = 0; ix < w_cfgdat->getAPCount(); ix++) errMsg += String("\n    ") + w_cfgdat->getSSID(ix);
                 printError(func, errMsg);
             } else errMsg = "";
         }
     } else printError(func, errMsg);
+
+    // return the connection status, true = success
     return isconnected;
 }
 
@@ -178,8 +222,8 @@ void printWiFiCfg()
         for(int ix = 0; ix < w_cfgdat->getAPCount(); ix++)
         {
             Serial.println("AP #" + String(ix));
-            Serial.println("getSSID - " + w_cfgdat->getSSIDString(ix));
-            Serial.println("getPASS - " + w_cfgdat->getPASSString(ix));
+            Serial.println("getSSID - " + w_cfgdat->getSSID(ix));
+            Serial.println("getPASS - " + w_cfgdat->getPASS(ix));
             Serial.println();
         }
     }
@@ -195,19 +239,28 @@ bool setupServers(const String srvCfgFile)
 String func = String(__func__);
 bool bRet = false;
 
+    // get the config data...
     // NOTE: The total quantity of server configs is limited,
     // see the SrvCfgData class for details.
     s_cfgdat = new SrvCfgData((const char *)srvCfgFile.c_str(), DEBUG_MUTE);
 
+    // check for errors
     if(!s_cfgdat->getError(errMsg)) 
     {
+        // success, parse the JSON string
         s_cfgdat->parseFile();
+
+        // check for errors
         if(s_cfgdat->getError(errMsg)) printError(func, errMsg);
-        else {
+        else 
+        {
+            // success, display the config data
             printSrvCfg();
             bRet = true;
         }
     } else printError(func, errMsg);
+
+    // return the config-read status, true = success
     return bRet;
 }
 
@@ -222,6 +275,9 @@ srvcfg cfg;
 // might use. Retrieving the information using a string
 // eliminates the need to keep indices in sync between the
 // application and the config data.
+// 
+// To DO: Obtain these strings from a config file, and/or
+//        seek a better method.
 const String labels[] = {"udp1","udp2","END"};
 
     if((a_cfgdat != NULL) && !a_cfgdat->getDebugMute())
@@ -250,20 +306,28 @@ bool connectWiFi(String ssid, String pass)
 {
 conninfo conn;
 
+    // debug stuff
     if((a_cfgdat != NULL) && !a_cfgdat->getDebugMute())
     {
         Serial.println("Attempting connection to - ");
         Serial.println("ssid : " + ssid);
         Serial.println("pass : " + pass);
     }
+    // /debug stuff
 
+    // attempt to connect with the specified access point...
     connWiFi = new ConnectWiFi(ssid.c_str(), pass.c_str());
 
+    // debug stuff
     if((a_cfgdat != NULL) && !a_cfgdat->getDebugMute())
     {
         Serial.println("connected? - " + String(connWiFi->IsConnected()? "yes" : "no"));
         Serial.println();
 
+        // connWiFi is global to any code that includes esp8266-ino.h
+        // 
+        // NOTE: The values are static, and obtained when the connection
+        // was successful.
         if(connWiFi->GetConnInfo(&conn)) 
         {
             Serial.println("ip  : " + conn.localIP);
@@ -275,6 +339,8 @@ conninfo conn;
             Serial.println("rssi     = " + String(conn.rssi) + " dBm");
         }
     }
+    // /debug stuff
+
     return connWiFi->IsConnected();
 }
 
@@ -289,3 +355,8 @@ bool checkDebugMute()
     if(a_cfgdat != NULL) return a_cfgdat->getDebugMute();
     return true;
 }
+
+#ifdef __cplusplus
+}
+#endif
+
