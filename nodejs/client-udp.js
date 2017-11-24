@@ -81,6 +81,8 @@ client.on('message', (message, remote) => {
 });
 
 /*
+    This is where the behavior changes based on the presence
+    and value of the config item named "repeat".
 */
 if(cfg.repeat === undefined) {
     sendUDP();
@@ -99,6 +101,7 @@ if(cfg.repeat === undefined) {
 }
 
 /*
+    Send a UDP packet to the server
 */
 function sendUDP() {
     // send one message...
