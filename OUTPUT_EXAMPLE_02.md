@@ -66,3 +66,7 @@ setup DONE - No Errors
 
 Where `usable_SSID_1`, `usable_SSID_2` and `wifipassw1`, `wifipassw2` are the values you edited in the **`/data/_wificfg.dat`** file.
 
+<br>
+<br>
+&copy; 2017 Jim Motyl
+

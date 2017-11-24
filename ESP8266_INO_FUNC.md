@@ -31,3 +31,7 @@ A collection of functions to provide a layer of *abstraction* to commonly used r
 * **`void printError(String func, String _errMsg)`** : Checks the current serial port baud rate and if it doesn't match the default baud rate it will re-initialize the serial port with the default baud rate. Then it sends a message along with a function name to the serial port.
     * Arguments - Requires 2 strings, `func` is the name of the calling function and `_errmsg` is the text message to be sent to the serial port. 
 
+<br>
+<br>
+&copy; 2017 Jim Motyl
+

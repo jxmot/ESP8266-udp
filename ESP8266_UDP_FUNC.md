@@ -22,3 +22,8 @@ A collection of functions to provide a layer of *abstraction* to the UDP functio
 ## Planned Modifications
 
 * Modify the UDP buffers and function(s) *internally* to be of the type `uint8_t`. This would be done to match the buffer argument for `WiFiUDP.wrte()`. The client facing code would use `unsigned char`.
+
+<br>
+<br>
+&copy; 2017 Jim Motyl
+

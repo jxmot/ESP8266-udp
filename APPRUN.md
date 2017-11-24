@@ -154,3 +154,7 @@ When the WiFi connection is successful the on-board LED will flash with an inter
 * UDP Configuration errors
 
 
+<br>
+<br>
+&copy; 2017 Jim Motyl
+

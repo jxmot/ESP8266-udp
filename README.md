@@ -6,11 +6,11 @@ An ESP8266 project that uses UDP to send messages to a server.
 * [History](#history)
 * [Running the Application](#running-the-application)
     * [A Server for Testing](#a-server-for-testing)
-    * [Build and Customize](#build-and-customize)
+        * [NodeJS Testing Code](#nodejs-testing-code)
+    * [Build and Run](#build-and-run)
 * [Design Details](#design-details)
 * [Code Details](#code-details)
     * [Sketch Source](#sketch-source)
-    * [NodeJS Testing Code](#nodejs-testing-code)
 * [Future Modifications](#future-modifications)
     * [Submodules](#submodules)
     * [Task Manager](#task-manager)
@@ -33,13 +33,19 @@ After I finished a **[RWCL-0516 sensor project](https://github.com/jxmot/ESP8266
 
 ## A Server for Testing
 
-You will need a server capable of responding to the UDP packets sent from the sketch. A second ESP8266 could be set up as a server by using one of the many UDP examples found online. A good one is [Arduino/doc/esp8266wifi/udp-examples.rst](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-examples.rst) on Github. Please note that a *Packet Sender* example specific to this project will be provide later.
+You will need a server capable of responding to the UDP packets sent from the sketch. A second ESP8266 could be set up as a server by using one of the many UDP examples found online. A good one is [Arduino/doc/esp8266wifi/udp-examples](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-examples.rst) on Github. Please note that a *Packet Sender* example specific to this project will be provide later.
 
 My preferred test server is NodeJS running a simple script. In my current development set up I use *Visual Studio Code* to run and debug the UDP server code. If you want to go that route I've provided `server-udp.js` which is found in the `nodejs` folder in this repository.
 
-An application called *Packet Sender* is an excellent alternative to a NodeJS server. To see an example on using it with the sketch right-click **[here](PCKTSENDER_EXAMPLE.md)** and open in a new tab or window.
+An application called *Packet Sender* is an excellent alternative to a NodeJS server. To see an example on using it with this sketch right-click **[here](PCKTSENDER_EXAMPLE.md)** and open in a new tab or window.
 
-## Build and Customize
+### NodeJS Testing Code
+
+I really like NodeJS for a lot of reasons, and this project just adds to that list! The really great aspect to this is the test code I'm writing will be reused in a NodeJS server application running on a **[Tessel 2](https://tessel.io/)**.
+
+To see an example on using the scripts with this sketch right-click **[here](NODE_TESTAPP.md)** and open in a new tab or window.
+
+## Build and Run
 
 In order for the sketch to run on your network and use your UDP server some minor modifications must be made. To see some instructions on modifying it right-click **[here](APPRUN.md)** and open in a new tab or window.
 
@@ -65,11 +71,11 @@ For the purpose of this project I'll only describe the portions of code that are
 
 ## Sketch Source
 
+The main sketch file - `ESP9266-udp.ino`, intentionally does not have a lot of code in it. Instead the code you would normally see is grouped into two types - 
+
 **`esp8266-udp` Functions** :  To view function descriptions please right-click **[here](ESP8266_UDP_FUNC.md)** and open in a new tab or window.
 
 **`esp8266-ino` Functions** :  To view function descriptions please right-click **[here](ESP8266_INO_FUNC.md)** and open in a new tab or window.
-
-## NodeJS Testing Code
 
 # Future Modifications
 
@@ -77,9 +83,11 @@ Just some things I may experiment with. This section will get updated as I work 
 
 ## Submodules
 
+I need to learn more about *Git submodules*. I'd like to have the ESP8266 common project code in a submodule rather than spread across multiple project repositories. And not all of the code is common. There are one or two files where only a small portion changes from project to project. I'll have to devise a method for managing that.
+
 ## Task Manager
 
-Investigate the use of <https://github.com/arkhipenko/TaskScheduler> or something like it. 
+Investigate the use of <https://github.com/arkhipenko/TaskScheduler> or *something like it*. For starters I'd like to try using one to manage calls to `recvUDP()` instead of calling it from within `loop()`.
 
 ## JSON Data via UDP
 
@@ -116,4 +124,8 @@ To fully understand **ArduinoJson** and how to properly determine the appropriat
 * **ArduinoJson Avoiding Pitfalls**, this provides a very good explanation of common pitfalls as related to the ArduinoJson memory model - <https://bblanchon.github.io/ArduinoJson/doc/pitfalls/>
 * **ArduinoJson Memory Model**, this explains how the memory model is allocated and information regarding buffer sizes and methods of allocation - <https://bblanchon.github.io/ArduinoJson/doc/memory/>
 * **ArduinoJson Assistant** is a tool to aid in determining the correct buffer size based on a sample of the JSON you are working with - <https://bblanchon.github.io/ArduinoJson/assistant/>
+
+<br>
+<br>
+&copy; 2017 Jim Motyl
 

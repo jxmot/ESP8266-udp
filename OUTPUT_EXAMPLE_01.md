@@ -49,3 +49,8 @@ setup DONE - Could not connect to -
 ```
 
 Since all attempts failed the on-board LED will flash with an interval of `ERR_TOGGLE_INTERVAL` (*defined in ESP8266-udp.ino*).
+
+<br>
+<br>
+&copy; 2017 Jim Motyl
+
