@@ -10,7 +10,6 @@ An ESP8266 project that uses UDP to send messages to a server.
     * [Build and Run](#build-and-run)
 * [Design Details](#design-details)
 * [Code Details](#code-details)
-    * [Sketch Source](#sketch-source)
 * [Future Modifications](#future-modifications)
     * [Submodules](#submodules)
     * [Task Manager](#task-manager)
@@ -31,13 +30,15 @@ After I finished a **[RWCL-0516 sensor project](https://github.com/jxmot/ESP8266
 
 # Running the Application
 
+Please read through this section and the files it links to at once before 
+
 ## A Server for Testing
 
 You will need a server capable of responding to the UDP packets sent from the sketch. A second ESP8266 could be set up as a server by using one of the many UDP examples found online. A good one is [Arduino/doc/esp8266wifi/udp-examples](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-examples.rst) on Github. Please note that a *Packet Sender* example specific to this project will be provide later.
 
 My preferred test server is NodeJS running a simple script. In my current development set up I use *Visual Studio Code* to run and debug the UDP server code. If you want to go that route I've provided `server-udp.js` which is found in the `nodejs` folder in this repository.
 
-An application called *Packet Sender* is an excellent alternative to a NodeJS server. To see an example on using it with this sketch right-click **[here](PCKTSENDER_EXAMPLE.md)** and open in a new tab or window.
+An application called *Packet Sender* is an excellent alternative to a NodeJS server. ~To see an example on using it with this sketch right-click **[here](PCKTSENDER_EXAMPLE.md)** and open in a new tab or window.~
 
 ### NodeJS Testing Code
 
@@ -66,10 +67,6 @@ The sketch continuously alternates between sending a UDP packet and waiting for 
 </p>
 
 # Code Details
-
-For the purpose of this project I'll only describe the portions of code that are related to UDP.
-
-## Sketch Source
 
 The main sketch file - `ESP9266-udp.ino`, intentionally does not have a lot of code in it. Instead the code you would normally see is grouped into two types - 
 
