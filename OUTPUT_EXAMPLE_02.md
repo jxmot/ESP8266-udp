@@ -43,25 +43,31 @@ rssi     = -37 dBm
 
 SrvCfgData parsing JSON - 
 {
-    "http":{"addr":"192.168.0.26","port":80},
-    "devapi":{"addr":"192.168.0.26","port":4843},
-    "websock":{"addr":"192.168.0.26","port":8080}
+    "udp1":{"addr":"192.168.0.7","recvport":48431,"sendport":48431},
+    "udp2":{"addr":"192.168.0.100","recvport":48431,"sendport":48431}
 }
 
-label = http
-addr  = 192.168.0.26
-port  = 80
+label    = udp1
+addr     = 192.168.0.7
+ipaddr   = 192.168.0.7
+recvport = 48431
+sendport = 48431
 
-label = devapi
-addr  = 192.168.0.26
-port  = 4843
-
-label = websock
-addr  = 192.168.0.26
-port  = 8080
+label    = udp2
+addr     = 192.168.0.100
+ipaddr   = 192.168.0.100
+recvport = 48431
+sendport = 48431
 
 
 setup DONE - No Errors
+
+initUDP() - success = 1
+sendUDP() - len = 22
+sendUDP(75) - sending to 192.168.0.7:48431
+
+loop() - sent = 75  data = this is a test 1 2 3 4
+
 ```
 
 Where `usable_SSID_1`, `usable_SSID_2` and `wifipassw1`, `wifipassw2` are the values you edited in the **`/data/_wificfg.dat`** file.
