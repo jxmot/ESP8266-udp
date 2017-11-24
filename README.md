@@ -41,7 +41,7 @@ An application called *Packet Sender* is an excellent alternative to a NodeJS se
 
 ### NodeJS Testing Code
 
-I really like NodeJS for a lot of reasons, and this project just adds to that list! The really great aspect to this is the test code I'm writing will be reused in a NodeJS server application running on a **[Tessel 2](https://tessel.io/)**.
+I really like NodeJS for a lot of reasons, and this project just adds to that list! The really great aspect to this is that the test code I'm writing will be reused in a NodeJS server application running on a **[Tessel 2](https://tessel.io/)**.
 
 To see an example on using the scripts with this sketch right-click **[here](NODE_TESTAPP.md)** and open in a new tab or window.
 
