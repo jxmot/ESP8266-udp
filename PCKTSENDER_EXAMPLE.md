@@ -3,5 +3,5 @@
 
 <br>
 <br>
-&copy; 2017 Jim Motyl
+&copy; 2017 James Motyl
 

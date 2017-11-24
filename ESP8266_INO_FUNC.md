@@ -33,5 +33,5 @@ A collection of functions to provide a layer of *abstraction* to commonly used r
 
 <br>
 <br>
-&copy; 2017 Jim Motyl
+&copy; 2017 James Motyl
 

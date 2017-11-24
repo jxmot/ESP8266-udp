@@ -115,6 +115,10 @@ Some level of security may be required. A simple method would be to send the dev
 * [Arduino/doc/esp8266wifi/udp-class.rst](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-class.rst) on Github
 * [Arduino/doc/esp8266wifi/udp-examples.rst](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-examples.rst) on Github
 
+## NodeJS
+
+* [UDP / Datagram Sockets | Node.js v6.9.3 Documentation](https://nodejs.org/docs/v6.9.3/api/dgram.html)
+
 ## Recommended Reading
 
 To fully understand **ArduinoJson** and how to properly determine the appropriate size of the buffer needed for your JSON data I recommend that you read the following - 
@@ -127,5 +131,5 @@ To fully understand **ArduinoJson** and how to properly determine the appropriat
 
 <br>
 <br>
-&copy; 2017 Jim Motyl
+&copy; 2017 James Motyl
 

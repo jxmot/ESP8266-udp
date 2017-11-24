@@ -68,5 +68,5 @@ Where `usable_SSID_1`, `usable_SSID_2` and `wifipassw1`, `wifipassw2` are the va
 
 <br>
 <br>
-&copy; 2017 Jim Motyl
+&copy; 2017 James Motyl
 

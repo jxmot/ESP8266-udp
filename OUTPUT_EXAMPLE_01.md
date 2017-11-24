@@ -52,5 +52,5 @@ Since all attempts failed the on-board LED will flash with an interval of `ERR_T
 
 <br>
 <br>
-&copy; 2017 Jim Motyl
+&copy; 2017 James Motyl
 

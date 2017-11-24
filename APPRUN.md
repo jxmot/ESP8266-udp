@@ -156,5 +156,5 @@ When the WiFi connection is successful the on-board LED will flash with an inter
 
 <br>
 <br>
-&copy; 2017 Jim Motyl
+&copy; 2017 James Motyl
 

@@ -25,5 +25,5 @@ A collection of functions to provide a layer of *abstraction* to the UDP functio
 
 <br>
 <br>
-&copy; 2017 Jim Motyl
+&copy; 2017 James Motyl
 
