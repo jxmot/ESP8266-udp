@@ -2,10 +2,10 @@
   "name": "UDP Testing Tool",
   "version": "0.1.0",
   "description": "",
-  "main": "server-udp.js",
+  "main": "client-udp.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server-udp.js"
+    "start": "node client-udp.js"
   },
   "repository": {
     "type": "",
