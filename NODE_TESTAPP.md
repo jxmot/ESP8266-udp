@@ -2,9 +2,13 @@
 
 This document will describe some JavaScript files that are run on Node. So at this point I'll assume that you're familiar with Node and can run a script.
 
+## History
+
+While I was working on my UDP sketch and encountering problems I realized that I needed a working *end-to-end* UDP server and client. This would allow me to use *Wireshark* to observe a properly working UDP packet exchange.
+
 ## Requirements
 
-* A *local* Node installation. This can be on your PC (*Linux, Mac or Windows*), or on any other node-available computer on your network.
+* A *local* Node installation. This can be on your PC (*Linux, Mac or Windows*), or on any other node-capable computer on your network.
 * The JavaScript files in this repository at `/nodejs`, place copies where your Node installation is available.
 
 ### `server-udp-cfg.js` Optional Modification
@@ -30,7 +34,7 @@ Just as usual -
 
 That's it! No additional packages are needed.
 
-## Sample Output
+### Sample Output
 
 While the sketch is running...
 
