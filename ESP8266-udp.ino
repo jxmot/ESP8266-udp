@@ -7,11 +7,6 @@
 // use of demo-configuration files instead of the ones with sensitive info.
 //#define CONFIG_DEMO
 
-// If defined an alternative application configuration file will be used. The 
-// intent is to allow compile-time control over whether or not debugging
-// information will be sent through the serial connection.
-//#define MUTE_DEBUG_OUTPUT
-
 // required include files...
 #include "esp8266-ino.h"
 #include "esp8266-udp.h"
@@ -38,13 +33,8 @@ void setup()
 {
     setupStart();
 
-#ifdef MUTE_DEBUG_OUTPUT
-    if(setupApp("/_appcfg.dat")) 
-    {
-#else
     if(setupApp("/appcfg.dat")) 
     {
-#endif
 #ifdef CONFIG_DEMO
         if(setupWiFi("/wificfg.dat")) 
         {
@@ -130,7 +120,7 @@ String temp;
 
             // NOTE: It was assumed that the UDP packet contained a 
             // string of characters. The string could contain anything 
-            // (up to udp-defs.h:UDP_PACKET_SIZE bytes in size) even
+            // (up to udp-defs.h:UDP_PAYLOAD_SIZE bytes in size) even
             // a JSON string. The string MUST be NULL terminated, there's 
             // more info in esp8266-udp.cpp
             temp = String((char *)&readBuffer[0]);

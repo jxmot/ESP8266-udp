@@ -19,12 +19,12 @@ extern "C" {
 //
 // NOTE: Things seem to work the best when the READ and
 // WRITE sizes are the same.
-#define UDP_PACKET_SIZE_READ (UDP_PACKET_SIZE + 1)
-#define UDP_PACKET_SIZE_WRITE (UDP_PACKET_SIZE + 1)
+#define UDP_PAYLOAD_SIZE_READ (UDP_PAYLOAD_SIZE + 1)
+#define UDP_PAYLOAD_SIZE_WRITE (UDP_PAYLOAD_SIZE + 1)
 
 // read & write buffers
-unsigned char readBuffer[UDP_PACKET_SIZE_READ];
-unsigned char writeBuffer[UDP_PACKET_SIZE_WRITE];
+unsigned char readBuffer[UDP_PAYLOAD_SIZE_READ];
+unsigned char writeBuffer[UDP_PAYLOAD_SIZE_WRITE];
 
 // Arduino UDP object
 WiFiUDP udp;
@@ -34,7 +34,7 @@ srvcfg udpServer;
 
 /* ************************************************************************ */
 /*
-    Obtain the UDP configuration data, apply it and do any other necessary
+    Obtains the UDP configuration data, apply it and do any other necessary
     UDP config steps...
 */
 int initUDP()
@@ -53,7 +53,7 @@ int iRet = 0;
     }
     if(!checkDebugMute()) Serial.println("initUDP() - success = " + String(success));
 
-    if(success) iRet = UDP_PACKET_SIZE;
+    if(success) iRet = UDP_PAYLOAD_SIZE;
     else iRet = 0;
 
     return iRet;
@@ -69,11 +69,11 @@ int iRet = 0;
     if(!checkDebugMute()) Serial.println("sendUDP() - len = " + String(len));
 
     // set the entire write buffer contents to 0
-    memset(writeBuffer, 0, UDP_PACKET_SIZE_WRITE);
+    memset(writeBuffer, 0, UDP_PAYLOAD_SIZE_WRITE);
 
     // if the length of payload is valid then
     // assemble the UDP packet...
-    if((len < UDP_PACKET_SIZE_WRITE) && (len > 0))
+    if((len < UDP_PAYLOAD_SIZE_WRITE) && (len > 0))
     {
         // copy the payload into the write buffer
         memcpy(writeBuffer, payload, len);
@@ -82,14 +82,14 @@ int iRet = 0;
         udp.beginPacket(udpServer.ipaddr, udpServer.sendport);
     
         // write & send the UDP packet...
-        iRet = udp.write(writeBuffer, UDP_PACKET_SIZE);
+        iRet = udp.write(writeBuffer, UDP_PAYLOAD_SIZE);
 
         if(!checkDebugMute()) Serial.println("sendUDP("+String(iRet)+") - sending to " + udpServer.addr + ":" + udpServer.sendport);
     
         // finish & send the packet
         if(udp.endPacket() == 0) iRet = -1;
 
-    } else memset(writeBuffer, 0, UDP_PACKET_SIZE_WRITE);
+    } else memset(writeBuffer, 0, UDP_PAYLOAD_SIZE_WRITE);
 
     return iRet;
 }
@@ -107,9 +107,9 @@ int readLen = 0;
     if(packetLen = udp.parsePacket())
     {
         // clear the read buffer
-        memset(readBuffer, 0, UDP_PACKET_SIZE_READ);
+        memset(readBuffer, 0, UDP_PAYLOAD_SIZE_READ);
         // read the payload
-        readLen = udp.read(readBuffer, UDP_PACKET_SIZE);
+        readLen = udp.read(readBuffer, UDP_PAYLOAD_SIZE);
     }
 
     if(!checkDebugMute()) Serial.println("recvUDP() - packetLen = " + String(packetLen) + "  readLen = " + readLen);
