@@ -9,6 +9,8 @@
 extern "C" {
 #endif
 
+#define USE_MCAST
+
 #define UDP_PAYLOAD_SIZE 75
 
 #ifdef __cplusplus
