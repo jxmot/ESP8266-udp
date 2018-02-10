@@ -77,8 +77,19 @@ char macStr[MACSTR_SIZE];
     // clear out the MAC
     for(int ix = 0; ix < MACSTR_SIZE; ix++) macStr[ix] = 0;
 
+// NOTE: It seems that the ESP-01 will throw an exception when
+// WiFi.hostname() is called the *first time* during it's very
+// first skectch that connects to WiFi. And after it's very 
+// first successful WiFi AP connection it doesn't throw the
+// exception anymore.
+//
+//#ifdef ARDUINO_ESP8266_NODEMCU
     // get the current hostname
     currwifi.hostname = String(WiFi.hostname());
+//#endif
+//#ifdef ARDUINO_ESP8266_ESP01
+//    currwifi.hostname = "ESP_";
+//#endif
 
     // Keep trying to connect until either we're successful or
     // we've run out of attempts
@@ -106,6 +117,11 @@ char macStr[MACSTR_SIZE];
                 currwifi.macAddress = WiFi.macAddress();
                 currwifi.isConnected = true;
                 currwifi.rssi = WiFi.RSSI();
+//#ifdef ARDUINO_ESP8266_ESP01
+//                String tmp = String(currwifi.mac[3],HEX) + String(currwifi.mac[4],HEX) + String(currwifi.mac[5],HEX);
+//                tmp.toUpperCase();
+//                currwifi.hostname = currwifi.hostname + tmp;
+//#endif
                 return(true);
             }
         }

@@ -12,6 +12,9 @@ extern "C" {
 extern int initUDP();
 extern int sendUDP(char *payload, int len);
 extern int recvUDP();
+#ifdef USE_MCAST
+extern int multiUDP(char *payload, int len);
+#endif
 
 extern unsigned char readBuffer[];
 extern unsigned char writeBuffer[];

@@ -2,10 +2,15 @@
 /*
     esp8266-ino.cpp - support functions for the associated ino file.
 */
+#include "udp-defs.h"
+
 #include "AppCfgData.h"
 #include "WifiCfgData.h"
 #include "SrvCfgData.h"
 #include "connectWiFi.h"
+#ifdef USE_MCAST
+#include "MultiCastCfgData.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,6 +29,7 @@ void printAppCfg();
 void printWiFiCfg();
 bool connectWiFi(String ssid, String pass);
 void printSrvCfg();
+bool checkDebugMute();
 
 // for keeping track of the use of the on-board LED
 bool obLEDinUse = false;
@@ -34,6 +40,9 @@ bool obLEDinUse = false;
 AppCfgData *a_cfgdat = NULL;
 WifiCfgData *w_cfgdat = NULL;
 SrvCfgData *s_cfgdat = NULL;
+#ifdef USE_MCAST
+MultiCastCfgData *m_cfgdat = NULL;
+#endif
 
 // error message string
 String errMsg;
@@ -65,7 +74,9 @@ void setupDone()
     Serial.println();
     Serial.flush();
 
+#ifdef ARDUINO_ESP8266_NODEMCU
     initLED();
+#endif
 }
 
 void initLED()
@@ -103,12 +114,17 @@ bool toggleLED()
 static bool ledTogg = false;
 //static bool ledTogg = true;
 
+#ifdef ARDUINO_ESP8266_NODEMCU
     if(obLEDinUse == false) initLED();
-
     ledTogg = !ledTogg;
 
     if(ledTogg) digitalWrite(LED_BUILTIN, LOW);
     else digitalWrite(LED_BUILTIN, HIGH);
+#else
+    // if nothing else, at least toggle the flag so that
+    // it can be used elsewhere...
+    ledTogg = !ledTogg;
+#endif
 
     return ledTogg;
 }
@@ -312,6 +328,49 @@ const String labels[] = {"udp1","udp2","END"};
         }
     }
 }
+#ifdef USE_MCAST
+/*
+    Read and parse the UDP multicast config data
+*/
+bool setupMultiCast(const String mcastCfgFile)
+{
+String func = String(__func__);
+bool bRet = false;
+
+    // get the config data...
+    m_cfgdat = new MultiCastCfgData((const char *)mcastCfgFile.c_str(), DEBUG_MUTE);
+
+    // check for errors
+    if(!m_cfgdat->getError(errMsg)) 
+    {
+        // success, parse the JSON string
+        m_cfgdat->parseFile();
+
+        // check for errors
+        if(m_cfgdat->getError(errMsg)) printError(func, errMsg);
+        else 
+        {
+            // debug stuff
+            // success, display the config data
+            if(!checkDebugMute())
+            {
+                mcastcfg cfg;
+                if(m_cfgdat->getCfg(cfg)) 
+                {
+                    Serial.println("Multicast addr - " + cfg.addr);
+                    Serial.println("Multicast port - " + String(cfg.port));
+                }
+                Serial.flush();
+            }
+            // /debug stuff
+            bRet = true;
+        }
+    } else printError(func, errMsg);
+
+    // return the config-read status, true = success
+    return bRet;
+}
+#endif
 
 /*
     Connect to an access point with its SSID and password,

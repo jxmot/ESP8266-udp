@@ -5,8 +5,8 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
-#include "esp8266-ino.h"
 #include "udp-defs.h"
+#include "esp8266-ino.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -115,6 +115,25 @@ int readLen = 0;
     if(!checkDebugMute()) Serial.println("recvUDP() - packetLen = " + String(packetLen) + "  readLen = " + readLen);
     return readLen;
 }
+
+#ifdef USE_MCAST
+/*
+    Send a payload to a multi-cast address
+*/
+int multiUDP(char *payload, int len)
+{
+mcastcfg cfg;
+int sent;
+
+    if(m_cfgdat->getCfg(cfg))
+    {
+        udp.beginPacketMulticast(cfg.ipaddr, cfg.port, WiFi.localIP());
+        sent = udp.write(payload, len);
+        udp.endPacket();
+    }
+    return sent;
+}
+#endif
 
 #ifdef __cplusplus
 }

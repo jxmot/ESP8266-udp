@@ -11,6 +11,9 @@
 #include "AppCfgData.h"
 #include "WifiCfgData.h"
 #include "SrvCfgData.h"
+#ifdef USE_MCAST
+#include "MultiCastCfgData.h"
+#endif
 #include "connectWiFi.h"
 
 #ifdef __cplusplus
@@ -24,6 +27,9 @@ extern void setupDone();
 extern bool setupApp(const String appCfgFile);
 extern bool setupWiFi(const String wifiCfgFile);
 extern bool setupServers(const String srvCfgFile);
+#ifdef USE_MCAST
+extern bool setupMultiCast(const String mcastCfgFile);
+#endif
 
 extern bool toggleLED();
 
@@ -35,6 +41,9 @@ extern bool checkDebugMute();
 extern AppCfgData *a_cfgdat;
 extern WifiCfgData *w_cfgdat;
 extern SrvCfgData *s_cfgdat;
+#ifdef USE_MCAST
+extern MultiCastCfgData *m_cfgdat;
+#endif
 
 // pointer to the WiFi connection object -
 extern ConnectWiFi *connWiFi;
