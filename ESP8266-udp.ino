@@ -24,7 +24,8 @@ int toggInterv = TOGGLE_INTERVAL;
 
 // the test data (a string) that we'll send to the server
 #ifdef USE_MCAST
-char *testMsg = "{\"dev_id\":\"ESP_BEEFED\",\"status\":\"REQ_IP\",\"seq\":1}";
+// the test message is built in loop()
+//char *testMsg = "{\"dev_id\":\"ESP_BEEFED\",\"status\":\"REQ_IP\",\"seq\":1}";
 #else
 char *testMsg = "this is a test 1 2 3 4\00";
 #endif
@@ -74,7 +75,7 @@ void setup()
             printError(String(__func__), "UDP init failed!");
             toggInterv = ERR_TOGGLE_INTERVAL;
         } else if(!checkDebugMute()) Serial.println("UDP init GOOD!");
-    }
+    } else if(!checkDebugMute()) Serial.println("UDP init FAILED!");
 }
 
 /*
@@ -85,7 +86,10 @@ void loop()
 int sent = 0;
 int rcvd = 0;
 
+#ifdef USE_MCAST
+String msg;
 static int seq = 0;
+#endif
 
 String temp;
 
@@ -99,53 +103,68 @@ String temp;
     // false = OFF
     if(toggleLED()) 
     {
+#ifdef ARDUINO_ESP8266_NODEMCU
         // the LED will be ON when we send a packet, when the app 
         // was started the call to setupDone() turned it off. so 
         // the first call to toggleLED() will turn the LED on and
         // return `true`.
+#endif
 
         // check the error indicator, if no errors then proceed...
         if(toggInterv == TOGGLE_INTERVAL) 
+        {
 #ifdef USE_MCAST
-            sent = multiUDP(testMsg, strlen(testMsg));
+            msg = "{\"dev_id\":\"ESP_BEEFED\",\"status\":\"REQ_IP\",\"seq\":" + String(seq) + "}";
+
+            if(!checkDebugMute()) 
+            {
+                Serial.println();
+                Serial.println("------------------------------------");
+                Serial.println("loop() - sending = " + msg);
+            }
+
+            sent = multiUDP((char *)msg.c_str(), strlen(msg.c_str()));
+            seq += 1;
 #else
             sent = sendUDP(testMsg, strlen(testMsg));
 #endif
-        // if debug mute is off and we sent something, then announce it...
-        //if((!checkDebugMute()) && (sent > 0))
-        if(!checkDebugMute())
-        {
-            Serial.println();
-            Serial.println("loop() - sent = " + String(sent));// + "  data = " + String(testMsg));
-            Serial.println();
-        }
+            // if debug mute is off and we sent something, then announce it...
+            //if((!checkDebugMute()) && (sent > 0))
+            if(!checkDebugMute())
+            {
+                Serial.println("loop() - sent = " + String(sent));
+                Serial.println();
+                Serial.flush();
+            }
+        } else if(!checkDebugMute()) Serial.println("there is an error!");
     }
-    else 
+    else // if(toggleLED()) 
     {
         // the LED will be OFF when we are waiting to recieve a packet
-        if(toggInterv == TOGGLE_INTERVAL) rcvd = recvUDP();
-
-        // if debug mute is off and we received a reply, then announce it...
-        if(!checkDebugMute())
+        if(toggInterv == TOGGLE_INTERVAL) 
         {
-            Serial.println();
-            Serial.println("loop() - rcvd = " + String(rcvd));
+            rcvd = recvUDP();
 
-            if(rcvd > 0)
+            // if debug mute is off and we received a reply, then announce it...
+            if(!checkDebugMute())
             {
-                // NOTE: It was assumed that the UDP packet contained a 
-                // string of characters. The string could contain anything 
-                // (up to udp-defs.h:UDP_PAYLOAD_SIZE bytes in size) even
-                // a JSON string. The string MUST be NULL terminated, there's 
-                // more info in esp8266-udp.cpp
-                temp = String((char *)&readBuffer[0]);
+                Serial.println("loop() - rcvd = " + String(rcvd));
     
-                Serial.println();
-                Serial.println("loop() - data = " + temp);
-                Serial.println();
+                if(rcvd > 0)
+                {
+                    // NOTE: It was assumed that the UDP packet contained a 
+                    // string of characters. The string could contain anything 
+                    // (up to udp-defs.h:UDP_PAYLOAD_SIZE bytes in size) even
+                    // a JSON string. The string MUST be NULL terminated, there's 
+                    // more info in esp8266-udp.cpp
+                    temp = String((char *)&readBuffer[0]);
+        
+                    Serial.println("loop() - data = " + temp);
+                    Serial.println();
+                }
+                Serial.flush();
             }
-            Serial.flush();
-        }
+        } else if(!checkDebugMute()) Serial.println("there is an error!");
     }
 }
 
