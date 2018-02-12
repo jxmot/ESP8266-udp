@@ -35,7 +35,7 @@ void MultiCastCfgData::parseJSON(std::unique_ptr<char[]>& buf)
     // be modified accordingly -
     //
     //      https://arduinojson.org/assistant/
-    const size_t bufferSize = JSON_OBJECT_SIZE(2) + 26;
+    const size_t bufferSize = JSON_OBJECT_SIZE(3) + 38;
     StaticJsonBuffer<bufferSize> jsonBuffer;
 
     JsonObject& json = jsonBuffer.parseObject(buf.get());
@@ -46,6 +46,7 @@ void MultiCastCfgData::parseJSON(std::unique_ptr<char[]>& buf)
         
         The other place is in MultiCastCfgData.h
     */
+    config.enable = json["enable"];
     config.addr = String((const char *)json["addr"]);
     config.ipaddr.fromString(config.addr);
     config.port = json["port"];
@@ -65,6 +66,7 @@ bool bRet = false;
 
     if(!getError(emsg))
     {
+        cfgout.enable = config.enable;
         cfgout.addr   = config.addr;
         cfgout.ipaddr = config.ipaddr;
         cfgout.port   = config.port;

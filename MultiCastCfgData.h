@@ -11,6 +11,7 @@
 // a multi-cast destination
 class mcastcfg {
     public:
+        bool enable;
         String addr;
         IPAddress ipaddr;
         int port;
