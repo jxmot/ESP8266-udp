@@ -8,9 +8,7 @@
 #include "WifiCfgData.h"
 #include "SrvCfgData.h"
 #include "connectWiFi.h"
-#ifdef USE_MCAST
 #include "MultiCastCfgData.h"
-#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,9 +38,7 @@ bool obLEDinUse = false;
 AppCfgData *a_cfgdat = NULL;
 WifiCfgData *w_cfgdat = NULL;
 SrvCfgData *s_cfgdat = NULL;
-#ifdef USE_MCAST
 MultiCastCfgData *m_cfgdat = NULL;
-#endif
 
 // error message string
 String errMsg;
@@ -328,7 +324,7 @@ const String labels[] = {"udp1","udp2","END"};
         }
     }
 }
-#ifdef USE_MCAST
+
 /*
     Read and parse the UDP multicast config data
 */
@@ -357,6 +353,7 @@ bool bRet = false;
                 mcastcfg cfg;
                 if(m_cfgdat->getCfg(cfg)) 
                 {
+                    Serial.println("Multicast enable - " + String(cfg.enable));
                     Serial.println("Multicast addr - " + cfg.addr);
                     Serial.println("Multicast port - " + String(cfg.port));
                 }
@@ -370,7 +367,6 @@ bool bRet = false;
     // return the config-read status, true = success
     return bRet;
 }
-#endif
 
 /*
     Connect to an access point with its SSID and password,

@@ -33,6 +33,8 @@ class MultiCastCfgData : public ConfigData {
         The other place is in MultiCastCfgData.cpp
     */
     public:
+        bool enable;
+
         bool getCfg(mcastcfg &cfgout);
 
     private:
