@@ -23,12 +23,7 @@
 int toggInterv = TOGGLE_INTERVAL;
 
 // the test data (a string) that we'll send to the server
-#ifdef USE_MCAST
-// the test message is built in loop()
-//char *testMsg = "{\"dev_id\":\"ESP_BEEFED\",\"status\":\"REQ_IP\",\"seq\":1}";
-#else
 char *testMsg = "this is a test 1 2 3 4\00";
-#endif
 
 /* ************************************************************************ */
 /*
@@ -56,9 +51,7 @@ void setup()
         if(setupWiFi("/_wificfg.dat")) 
         {
             if(!setupServers("/_servercfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
-#ifdef USE_MCAST
             else if(!setupMultiCast("/_multicfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
-#endif
         } else toggInterv = ERR_TOGGLE_INTERVAL;
 #endif
     } else  toggInterv = ERR_TOGGLE_INTERVAL;
@@ -85,11 +78,8 @@ void loop()
 {
 int sent = 0;
 int rcvd = 0;
-
-#ifdef USE_MCAST
 String msg;
 static int seq = 0;
-#endif
 
 String temp;
 
@@ -109,25 +99,25 @@ String temp;
         // the first call to toggleLED() will turn the LED on and
         // return `true`.
 #endif
-
         // check the error indicator, if no errors then proceed...
         if(toggInterv == TOGGLE_INTERVAL) 
         {
-#ifdef USE_MCAST
-            msg = "{\"dev_id\":\"ESP_BEEFED\",\"status\":\"REQ_IP\",\"seq\":" + String(seq) + "}";
-
-            if(!checkDebugMute()) 
+            if(m_cfgdat->enable)
             {
-                Serial.println();
-                Serial.println("------------------------------------");
-                Serial.println("loop() - sending = " + msg);
+                msg = "{\"dev_id\":\"ESP_BEEFED\",\"status\":\"REQ_IP\",\"seq\":" + String(seq) + "}";
+    
+                if(!checkDebugMute()) 
+                {
+                    Serial.println();
+                    Serial.println("------------------------------------");
+                    Serial.println("loop() - sending = " + msg);
+                }
+                sent = multiUDP((char *)msg.c_str(), strlen(msg.c_str()));
+                seq += 1;
+            } else {
+                sent = sendUDP(testMsg, strlen(testMsg));
             }
 
-            sent = multiUDP((char *)msg.c_str(), strlen(msg.c_str()));
-            seq += 1;
-#else
-            sent = sendUDP(testMsg, strlen(testMsg));
-#endif
             // if debug mute is off and we sent something, then announce it...
             //if((!checkDebugMute()) && (sent > 0))
             if(!checkDebugMute())

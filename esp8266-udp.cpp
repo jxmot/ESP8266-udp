@@ -116,7 +116,6 @@ int readLen = 0;
     return readLen;
 }
 
-#ifdef USE_MCAST
 /*
     Send a payload to a multi-cast address
 */
@@ -133,7 +132,6 @@ int sent;
     }
     return sent;
 }
-#endif
 
 #ifdef __cplusplus
 }
