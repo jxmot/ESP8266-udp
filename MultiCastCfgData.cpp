@@ -46,7 +46,7 @@ void MultiCastCfgData::parseJSON(std::unique_ptr<char[]>& buf)
         
         The other place is in MultiCastCfgData.h
     */
-    config.enable = json["enable"];
+    enable = config.enable = json["enable"];
     config.addr = String((const char *)json["addr"]);
     config.ipaddr.fromString(config.addr);
     config.port = json["port"];
