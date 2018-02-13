@@ -47,7 +47,7 @@ server.on('message', (msg, rinfo) => {
     // got one, bump the counter!
     count += 1;
     // start the announcement...
-    var temp = `>> #${count.toString()}  Got [`;
+    var temp = `REPLY>> #${count.toString()}  Got [`;
     /*
         Strings arrive as a "string of character codes". They
         have to be converted to ASCII strings.
