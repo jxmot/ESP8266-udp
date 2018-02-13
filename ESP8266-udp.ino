@@ -35,11 +35,13 @@ void setup()
 
     if(setupApp("/appcfg.dat")) 
     {
+// If defined then enable "demonstration mode" operations. This includes the
+// use of demo-configuration files instead of the ones with sensitive info.
+//#define CONFIG_DEMO
 #ifdef CONFIG_DEMO
         if(setupWiFi("/wificfg.dat")) 
         {
             if(!setupServers("/servercfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
-        } else toggInterv = ERR_TOGGLE_INTERVAL;
 #else
         // NOTE: The .gitignore in this repo is configured to ignore ALL
         // files that start with an underscore ('_'). This allows for
@@ -51,9 +53,9 @@ void setup()
         if(setupWiFi("/_wificfg.dat")) 
         {
             if(!setupServers("/_servercfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
-            else if(!setupMultiCast("/_multicfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
-        } else toggInterv = ERR_TOGGLE_INTERVAL;
 #endif
+            else if(!setupMultiCast("/multicfg.dat")) toggInterv = ERR_TOGGLE_INTERVAL;
+        } else toggInterv = ERR_TOGGLE_INTERVAL;
     } else  toggInterv = ERR_TOGGLE_INTERVAL;
 
     // initial setup is complete, wrap up and continue...
@@ -115,6 +117,14 @@ String temp;
                 sent = multiUDP((char *)msg.c_str(), strlen(msg.c_str()));
                 seq += 1;
             } else {
+
+                if(!checkDebugMute()) 
+                {
+                    Serial.println();
+                    Serial.println("------------------------------------");
+                    Serial.println("loop() - sending = " + String(testMsg));
+                }
+
                 sent = sendUDP(testMsg, strlen(testMsg));
             }
 
