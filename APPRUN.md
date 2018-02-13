@@ -16,13 +16,13 @@
 
 You will need the following - 
 
-* ESP8266 - I'm using a NodeMCU 1.0, and it's a 12-E
+* ESP8266 - I've used a NodeMCU 1.0 and an ESP-01S. Either one will work.
 * Arduino IDE - Installed and made ready for use with the ESP8266
     * In addition to being able to compile code and download for the ESP8266 you **will** need an IDE plug-in for downloading the file(s) to the ESP8266 *flash memory*.
 * The **[ArduinoJSON](#http://arduinojson.org/)** library is used in this application.
-* A UDP *server* should be running before starting the sketch. This can be at least one of the following - 
-    * A running instance of NodeJS. Script files are in the `nodejs` folder in this repository.
-    * Use a program like **[Packet Sender](https://packetsender.com/)**.
+* A UDP *server* should be running before starting the sketch. This can be one of the following - 
+    * `/nodejs/server-udp.js` - This is for testing UDP messages (*from the ESP8266*) and replies (*from the server*).
+    * `/node/multi-udp.js` - This is for testing UDP *multi-cast* and requires a configuration change in the sketch.
 
 ## ArduinoJSON
 
@@ -48,7 +48,7 @@ I've tested the plug-in separately in each of the locations and have had no issu
 
 # Download and Run
 
-**NOTE :** If you're not new to Arduino and/or the ESP8266 you can probably skip this section and jump to [Customization](#customization). This section is meant to make sure everything else is working properly. 
+**NOTE :** If you're not new to Arduino and/or the ESP8266 you can probably skip this section and jump to **[Configuration](#configuration)**. This section is meant to make sure everything else is working properly. 
 <br>
 <br>
 <br>
@@ -66,7 +66,7 @@ After that has completed open the *serial monitor* and reset the ESP8266.
 
 To see a serial output example right-click **[here](OUTPUT_EXAMPLE_01.md)** and open in a new tab or window.
 
-# Customization
+# Configuration
 
 Let's edit the configuration data and change at least one of the SSID and password combinations to something *usable*.
 
@@ -101,8 +101,8 @@ Let's edit the configuration data and change at least one of the SSID and passwo
 
 ```
 {
-    "udp1":{"addr":"server IP address","recvport":1234,"sendport":1234},
-    "udp2":{"addr":"server IP address","recvport":1234,"sendport":1234}
+    "udp1":{"addr":"server IP address","recvport":48000,"sendport":48000},
+    "udp2":{"addr":"server IP address","recvport":48000,"sendport":48000}
 }
 ```
 
@@ -110,8 +110,8 @@ Let's edit the configuration data and change at least one of the SSID and passwo
 
 ```
 {
-    "udp1":{"addr":"192.168.0.7","recvport":45321,"sendport":45321},
-    "udp2":{"addr":"192.168.0.100","recvport":45321,"sendport":45321}
+    "udp1":{"addr":"192.168.0.7","recvport":48000,"sendport":48000},
+    "udp2":{"addr":"192.168.0.100","recvport":48000,"sendport":48000}
 }
 ```
 
@@ -119,11 +119,38 @@ Let's edit the configuration data and change at least one of the SSID and passwo
 
 ```
 {
-    "udp1":{"addr":"192.168.0.7","recvport":45321,"sendport":45321}
+    "udp1":{"addr":"192.168.0.7","recvport":48000,"sendport":48000}
 }
 ```
 
 **4**) Save and close the file as **`_servercfg.dat`** (*note the underscore at the beginning of the file name, since this file now contains sensitive information it will be ignored via* `.gitignore` *and cannot be committed*)
+
+## Multi-cast Configuration
+
+**1**) Edit the `multicfg.dat` file, it's found in `/data`
+
+**2**) The contents currently look like this - 
+
+```
+{
+    "enable":false,
+    "addr":"224.0.0.1",
+    "port":54000
+}
+```
+
+**3**) Modify "enable" to be `true` for testing multi-cast - 
+
+```
+{
+    "enable":true,
+    "addr":"224.0.0.1",
+    "port":54000
+}
+```
+
+**NOTE :** The companion server file for multi-cast is `/nodejs/multi-udp.js`. And it's configuration file is `/node/multi-udp-cfg.js`. It should *not* requre any modifications.
+
 
 ## Muting the Output
 

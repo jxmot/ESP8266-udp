@@ -9,7 +9,7 @@ While I was working on my UDP sketch and encountering problems I realized that I
 ## Requirements
 
 * A *local* Node installation. This can be on your PC (*Linux, Mac or Windows*), or on any other node-capable computer on your network.
-* The JavaScript files in this repository at `/nodejs`, place copies where your Node installation is available.
+* The JavaScript files in this repository at `/nodejs`, place copies where your Node installation is available or run them from the `/nodejs` folder.
 
 ### `server-udp-cfg.js` Optional Modification
 
@@ -18,96 +18,80 @@ The file currently contains -
 ```javascript
 module.exports = {
      host : '0.0.0.0',
-     port : 48431
+     port : 48000
 };
 ```
 
-Which tells the UDP server to listen on all IP addresses on the current machine, and use port number `48431`.
+Which tells the UDP server to listen on all *network interfaces* on the current machine, and use port number `48000`.
 
-Modifying either the address or the port is *optional*. You can use them as-is, as long as the client-side `/data/servercfg.dat` and the `/data/_servercfg.dat` files match appropriately.
+### `client-udp-cfg.js` Modification
 
-## Running the test
+The file currently contains - 
 
-Just as usual - 
+```javascript
+module.exports = {
+    host : '192.168.0.7',
+    port : 48000,
+    repeat: 5
+};
+```
+
+Which tells the UDP client to send packets to `192.168.0.7` on port `48000`, and `repeat` tells it to send the packet 5 times. 
+
+**NOTE :** The `repeat` setting is multi-purpose, and works like this - 
+
+* With values from **0** through **500** : This is the quantity of packets that the client will send.
+* With values greater than **500** : This will represent time *in milliseconds* between each packet sent. It will repeat an infinite number of times.
+
+## First Test
+
+I recommend running the server and the client just to make sure that everything is working properly. To do that you will first have to change the `host` in `client-udp-cfg.js`. Edit the IP address so that it matches the IP address machine where you are running the server. Please note that both the server and client can be ran on the same machine. 
+
+Run the first test by starting the server *first* - 
 
 `>node server-udp.js`
 
-That's it! No additional packages are needed.
+Then start the client (*from a different command-line instance*) - 
+
+`>node client-udp.js`
 
 ### Sample Output
 
-While the sketch is running...
-
+The server - 
 ```
 >node server-udp.js
-server listening 0.0.0.0:48431
-server reply: >> #1  Got [this is a test 1 2 3 4]
-server reply: >> #2  Got [this is a test 1 2 3 4]
-server reply: >> #3  Got [this is a test 1 2 3 4]
-server reply: >> #4  Got [this is a test 1 2 3 4]
+server listening 0.0.0.0:48000
+server reply: REPLY>> #1  Got [Hello Server]
+server reply: REPLY>> #2  Got [Hello Server]
+server reply: REPLY>> #3  Got [Hello Server]
+server reply: REPLY>> #4  Got [Hello Server]
+server reply: REPLY>> #5  Got [Hello Server]
 ```
 
-And in the Arduino serial console - 
+The client - 
 
 ```
-initUDP() - success = 1
-
-sendUDP() - len = 22
-sendUDP(75) - sending to 192.168.0.7:48431
-
-loop() - sent = 75  data = this is a test 1 2 3 4
-
-recvUDP() - packetLen = 35  readLen = 35
-
-loop() - rcvd = 35
-
-loop() - data = >> #1  Got [this is a test 1 2 3 4]
-
-sendUDP() - len = 22
-sendUDP(75) - sending to 192.168.0.7:48431
-
-loop() - sent = 75  data = this is a test 1 2 3 4
-
-recvUDP() - packetLen = 35  readLen = 35
-
-loop() - rcvd = 35
-
-loop() - data = >> #2  Got [this is a test 1 2 3 4]
-
-sendUDP() - len = 22
-sendUDP(75) - sending to 192.168.0.7:48431
-
-loop() - sent = 75  data = this is a test 1 2 3 4
-
-recvUDP() - packetLen = 35  readLen = 35
-
-loop() - rcvd = 35
-
-loop() - data = >> #3  Got [this is a test 1 2 3 4]
-
-sendUDP() - len = 22
-sendUDP(75) - sending to 192.168.0.7:48431
-
-loop() - sent = 75  data = this is a test 1 2 3 4
-
-recvUDP() - packetLen = 35  readLen = 35
-
-loop() - rcvd = 35
-
-loop() - data = >> #4  Got [this is a test 1 2 3 4]
-
+>node client-udp.js
+sending first of 5 messages now
+Message sent
+client got reply : [REPLY>> #1  Got [Hello Server]] from 192.168.0.7:48000
+sending 2 of 5 messages now
+Message sent
+client got reply : [REPLY>> #2  Got [Hello Server]] from 192.168.0.7:48000
+sending 3 of 5 messages now
+Message sent
+client got reply : [REPLY>> #3  Got [Hello Server]] from 192.168.0.7:48000
+sending 4 of 5 messages now
+Message sent
+client got reply : [REPLY>> #4  Got [Hello Server]] from 192.168.0.7:48000
+sending 5 of 5 messages now
+Message sent
+client got reply : [REPLY>> #5  Got [Hello Server]] from 192.168.0.7:48000
 ```
 
-## More Than One
 
-If you have the need to run more than one instance of the test server, and on different ports or even addresses the try this - 
 
-* Make a copy of `/nodejs/server-udp-cfg.js` and give it a new name.
-* Edit the new file and make your changes, save it.
-* Then run with this command : `>node server-udp.js new-file.js`
-
-You could run multiple instances of Node and the server each with different configuration files.
-
+<br>
 <br>
 <br>
 &copy; 2017 James Motyl

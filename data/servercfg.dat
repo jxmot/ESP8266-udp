@@ -1,4 +1,4 @@
 {
-    "udp1":{"addr":"server IP address","recvport":1234,"sendport":1234},
-    "udp2":{"addr":"server IP address","recvport":1234,"sendport":1234}
+    "udp1":{"addr":"server IP address","port":48000},
+    "udp2":{"addr":"server IP address","port":48000}
 }

@@ -43,30 +43,49 @@ rssi     = -37 dBm
 
 SrvCfgData parsing JSON - 
 {
-    "udp1":{"addr":"192.168.0.7","recvport":48431,"sendport":48431},
-    "udp2":{"addr":"192.168.0.100","recvport":48431,"sendport":48431}
+    "udp1":{"addr":"192.168.0.X","recvport":12345,"sendport":12345},
+    "udp2":{"addr":"192.168.0.Y","recvport":12345,"sendport":12345}
 }
 
 label    = udp1
-addr     = 192.168.0.7
-ipaddr   = 192.168.0.7
-recvport = 48431
-sendport = 48431
+addr     = 192.168.0.X
+ipaddr   = 192.168.0.X
+recvport = 12345
+sendport = 12345
 
 label    = udp2
-addr     = 192.168.0.100
-ipaddr   = 192.168.0.100
-recvport = 48431
-sendport = 48431
+addr     = 192.168.0.Y
+ipaddr   = 192.168.0.Y
+recvport = 12345
+sendport = 12345
+
+MultiCastCfgData parsing JSON - 
+{
+    "enable":false,
+    "addr":"224.0.0.1",
+    "port":54321
+}
+
+
+Multicast enable - 0
+Multicast addr - 224.0.0.1
+Multicast port - 54321
 
 
 setup DONE - No Errors
 
 initUDP() - success = 1
-sendUDP() - len = 22
-sendUDP(75) - sending to 192.168.0.7:48431
+UDP init GOOD!
 
-loop() - sent = 75  data = this is a test 1 2 3 4
+------------------------------------
+loop() - sending = this is a test 1 2 3 4
+sendUDP() - len = 22
+sendUDP(75) - sending to 192.168.0.7:48000
+loop() - sent = 75
+
+recvUDP() - packetLen = 40  readLen = 40
+loop() - rcvd = 40
+loop() - data = REPLY>> #1  Got [this is a test 1 2 3 4]
 
 ```
 

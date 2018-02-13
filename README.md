@@ -26,25 +26,30 @@ This project demonstrates the use of UDP on an ESP8266 (*NodeMCU v1.0*). It acts
 
 # History
 
-After I finished a **[RWCL-0516 sensor project](https://github.com/jxmot/ESP8266-RCWL0516)** I decided that I wanted to experiment with UDP and eventually respin the sensor project with UDP capabilities. And this is the result. It was an interesting few days. I had run into problems getting the ESP8266 client side to correctly extract a string from the server's reply. But that was fixed by making sure that the UDP packet and its reply had identically sized payloads.
+I wanted to test the UDP capabilities of the ESP8266 platform before I implemented code in a project. This application and its accompanying *Node.js* applications will do just that. The areas I was intereseted in were -
+
+* UDP one & two way communication between a device and a server.
+* UDP multi-cast communication from devices to one or more servers, including replies from servers.
 
 # Running the Application
 
-Please read through this section and the files it links to at once before 
+Please read through this section and the files it links to at least once before proceeding. There are configuration changes you will need to make before running the applications.
 
 ## A Server for Testing
 
 You will need a server capable of responding to the UDP packets sent from the sketch. A second ESP8266 could be set up as a server by using one of the many UDP examples found online. A good one is [Arduino/doc/esp8266wifi/udp-examples](https://github.com/esp8266/Arduino/tree/master/doc/esp8266wifi/udp-examples.rst) on Github. Please note that a *Packet Sender* example specific to this project will be provide later.
 
-My preferred test server is NodeJS running a simple script. In my current development set up I use *Visual Studio Code* to run and debug the UDP server code. If you want to go that route I've provided `server-udp.js` which is found in the `nodejs` folder in this repository.
-
-An application called *Packet Sender* is an excellent alternative to a NodeJS server. ~To see an example on using it with this sketch right-click **[here](PCKTSENDER_EXAMPLE.md)** and open in a new tab or window.~
+My **preferred** test server is NodeJS running a simple script. That's because I'm also developing a server to handle incoming data from sensors that will be on my network. And I've got experience writing Node.js applications.
 
 ### NodeJS Testing Code
 
-I really like NodeJS for a lot of reasons, and this project just adds to that list! The really great aspect to this is that the test code I'm writing will be reused in a NodeJS server application running on a **[Tessel 2](https://tessel.io/)**.
+In my current development set up I use *Visual Studio Code* to run and debug the UDP server code. However the examples found in the `nodejs` folder in this repository can be run from the command line - 
 
-To see an example on using the scripts with this sketch right-click **[here](NODE_TESTAPP.md)** and open in a new tab or window.
+* `server-udp.js` - A simple server that listens for UDP packets containing text. After a packet is recevied it replies to the sender.
+    * `client-udp.js` - A simple UDP client that sends packets containing text.
+* `multi-udp.js` - A *multi-cast* UDP server that listens for messages on `224.0.0.1` and then replies to the sender via their IP address.
+
+To see information and an example on using the scripts with this sketch right-click **[here](NODE_TESTAPP.md)** and open in a new tab or window.
 
 ## Build and Run
 
@@ -70,21 +75,13 @@ The sketch continuously alternates between sending a UDP packet and waiting for 
 
 The main sketch file - `ESP9266-udp.ino`, intentionally does not have a lot of code in it. Instead the code you would normally see is grouped into two types - 
 
-**`esp8266-udp` Functions** :  To view function descriptions please right-click **[here](ESP8266_UDP_FUNC.md)** and open in a new tab or window.
+**`esp8266-udp` Functions** : UDP initialization, send, and receive. To view function descriptions please right-click **[here](ESP8266_UDP_FUNC.md)** and open in a new tab or window.
 
-**`esp8266-ino` Functions** :  To view function descriptions please right-click **[here](ESP8266_INO_FUNC.md)** and open in a new tab or window.
+**`esp8266-ino` Functions** : Miscellaneous and *reusable* functions. To view function descriptions please right-click **[here](ESP8266_INO_FUNC.md)** and open in a new tab or window.
 
 # Future Modifications
 
 Just some things I may experiment with. This section will get updated as I work on them.
-
-## Submodules
-
-I need to learn more about *Git submodules*. I'd like to have the ESP8266 common project code in a submodule rather than spread across multiple project repositories. And not all of the code is common. There are one or two files where only a small portion changes from project to project. I'll have to devise a method for managing that.
-
-## Task Manager
-
-Investigate the use of <https://github.com/arkhipenko/TaskScheduler> or *something like it*. For starters I'd like to try using one to manage calls to `recvUDP()` instead of calling it from within `loop()`.
 
 ## JSON Data via UDP
 
@@ -93,12 +90,6 @@ Create functions that can take an *object* and render them as JSON strings. Then
 * Obtaining configuration data.
 * Registering a device with a server.
 * Sending device/sensor data to a server.
-
-## External Servers
-
-Modify the code to allow for *named* servers to be used in the server configuration file. The host names would need to be resolved to IP addresses.
-
-Some level of security may be required. A simple method would be to send the device's MAC in the packet to be used as a *fingerprint*. The server would compare it against a list of known MAC addresses.
 
 # Links and References
 
