@@ -48,8 +48,7 @@ int iRet = 0;
         // init the UDP...
         s_cfgdat->getServerCfg("udp1", udpServer);
 //        s_cfgdat->getServerCfg("udp2", udpServer);
-//        if(udp.begin(udpServer.recvport)) success = true;
-        if(udp.begin(udpServer.sendport)) success = true;
+        if(udp.begin(udpServer.port)) success = true;
     }
     if(!checkDebugMute()) Serial.println("initUDP() - success = " + String(success));
 
@@ -79,12 +78,12 @@ int iRet = 0;
         memcpy(writeBuffer, payload, len);
 
         // "begin" the UDP packet...
-        udp.beginPacket(udpServer.ipaddr, udpServer.sendport);
+        udp.beginPacket(udpServer.ipaddr, udpServer.port);
     
         // write & send the UDP packet...
         iRet = udp.write(writeBuffer, UDP_PAYLOAD_SIZE);
 
-        if(!checkDebugMute()) Serial.println("sendUDP("+String(iRet)+") - sending to " + udpServer.addr + ":" + udpServer.sendport);
+        if(!checkDebugMute()) Serial.println("sendUDP("+String(iRet)+") - sending to " + udpServer.addr + ":" + udpServer.port);
     
         // finish & send the packet
         if(udp.endPacket() == 0) iRet = -1;
