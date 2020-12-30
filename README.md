@@ -118,3 +118,5 @@ To fully understand **ArduinoJson** and how to properly determine the appropriat
 <br>
 &copy; 2017 James Motyl
 
+---
+<img src="http://webexperiment.info/extcounter/mdcount.php?id=ESP8266-udp">
